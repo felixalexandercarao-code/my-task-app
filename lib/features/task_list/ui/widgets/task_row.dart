@@ -3,7 +3,6 @@ import '../../models/task_model.dart';
 
 class TaskRow extends StatelessWidget {
   final Task task;
-  final bool showCheckbox;
   final bool checked;
   final ValueChanged<bool?>? onChanged;
   final VoidCallback? onTap;
@@ -11,17 +10,26 @@ class TaskRow extends StatelessWidget {
   const TaskRow({
     Key? key,
     required this.task,
-    this.showCheckbox = false,
     this.checked = false,
     this.onChanged,
     this.onTap,
   }) : super(key: key);
 
   String _subtitleText() {
-    final childCount = task.childTasks.length;
-    if (childCount > 0) return '$childCount task${childCount == 1 ? '' : 's'}';
-    final accomplished = task.datesAccomplished.length;
-    return '$accomplished task${accomplished == 1 ? '' : 's'}';
+    if (task.hasChild == true) {
+      final childCount = task.childTasks.length;
+      return '$childCount task${childCount == 1 ? '' : 's'}';
+    } else {
+      return '';
+    }
+  }
+
+  bool _isChecked() {
+    return task.datesAccomplished.isNotEmpty;
+  }
+
+  bool _showCheckbox() {
+    return task.hasChild == false;
   }
 
   @override
@@ -50,9 +58,9 @@ class TaskRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            if (showCheckbox)
+            if (_showCheckbox())
               Checkbox(
-                value: checked,
+                value: _isChecked(),
                 onChanged: onChanged,
               )
             else

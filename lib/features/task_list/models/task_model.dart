@@ -51,4 +51,28 @@ class Task {
       'updatedAt': updatedAt?.toIso8601String(),
     };
   }
+
+  Task copyWith({
+    String? id,
+    String? name,
+    bool? isRecurring,
+    int? recurrence,
+    List<String>? datesAccomplished,
+    bool? hasChild,
+    List<String>? childTasks,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      isRecurring: isRecurring ?? this.isRecurring,
+      recurrence: recurrence ?? this.recurrence,
+      datesAccomplished: datesAccomplished ?? this.datesAccomplished,
+      hasChild: hasChild ?? this.hasChild,
+      childTasks: childTasks ?? this.childTasks,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }
